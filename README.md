@@ -78,10 +78,22 @@ bunka = Bunka(embedding_model=embedding_model,
  bunka.fit(docs)
 ```
 
+### Choose your clustering model
+Bunkatopics allows you to use different clustering models. Here are two examples:
+
+#### Using KMeans
+
 ```python
 from sklearn.cluster import KMeans
 clustering_model = KMeans(n_clusters=15)
->>> bunka.get_topics(name_length=5, custom_clustering_model=clustering_model)# Specify the number of terms to describe each topic
+bunka.get_topics(name_length=5, custom_clustering_model=clustering_model)# Specify the number of terms to describe each topic
+```
+
+#### Using HDBScan
+```python
+from sklearn.cluster import HDBSCAN
+hdb = HDBSCAN(min_cluster_size=20)
+bunka.get_topics(name_length=5, custom_clustering_model=hdb)
 ```
 
 Topics are described by the most specific terms belonging to the cluster.
@@ -109,7 +121,7 @@ Topics are described by the most specific terms belonging to the cluster.
 Finally, let's visualize the topics that Bunka has computed for your text data:
 
 ```python
->>> bunka.visualize_topics(width=800, height=800, colorscale='delta')
+bunka.visualize_topics(width=800, height=800, colorscale='delta')
 ```
 
 <img src="docs/images/topic_modeling_raw_YlGnBu.png" width="70%" height="70%" align="center" />
@@ -134,13 +146,13 @@ bunka.get_clean_topic_name(llm=llm)
 Check the top documents for every topic!
 
 ```python
->>> bunka.df_top_docs_per_topic_
+bunka.df_top_docs_per_topic_
 ```
 
 Finally, let's visualize again the topics. We can chose from different colorscales.
 
 ```python
->>> bunka.visualize_topics(width=800, height=800)
+bunka.visualize_topics(width=800, height=800)
 ```
 
 YlGnBu           |  Portland
@@ -154,7 +166,7 @@ delta           |  Blues
 We can now access the newly made topics
 
 ```python
->>> bunka.df_topics_
+bunka.df_topics_
 ```
 
 | topic_id | topic_name                            | size | percent |
@@ -202,7 +214,7 @@ bunka.visualize_topics(color='tags', width=800, height=800) # Adjust the color
 If you are not happy with the resulting topics, you can change them manually. Click on Apply changes when you are done. In the example, we changed the topic **Cryptocurrency Impact** to **Cryptocurrency** and **Internet Discounts** to **Advertising**.
 
 ```python
->>> bunka.manually_clean_topics()
+bunka.manually_clean_topics()
 ```
 
 <img src="docs/images/manually_change_topics.png" width="40%" height="20%" align="center" />
@@ -212,13 +224,13 @@ If you are not happy with the resulting topics, you can change them manually. Cl
 You have the flexibility to construct a customized dataset by excluding topics that do not align with your interests. For instance, in the provided example, we omitted topics associated with **Advertising** and **High-Definition television**, as these clusters primarily contain promotional content that we prefer not to include in our model's training data.
 
 ```python
->>> bunka.clean_data_by_topics()
+bunka.clean_data_by_topics()
 ```
 
 <img src="docs/images/fine_tuning_dataset.png" width="40%" height="20%" align="center" />
 
 ```python
->>> bunka.df_cleaned_
+bunka.df_cleaned_
 ```
 
 | doc_id    | content                                               | topic_id | topic_name                             |
@@ -269,7 +281,7 @@ bourdieu_fig = bunka.visualize_bourdieu(
 ```
 
 ```python
->>> bourdieu_fig.show()
+bourdieu_fig.show()
 ```
 
 positive/negative vs humans/machines            |  politics/business vs humans/machines  
@@ -288,7 +300,7 @@ bunka.save_bunka("bunka_dump")
 
 from bunkatopics import Bunka
 bunka = Bunka().load_bunka("bunka_dump")
->>> bunka.get_topics(n_clusters = 15)
+bunka.get_topics(n_clusters = 15)
 ```
 
 ## Loading customed embeddings (Beta)
@@ -316,7 +328,7 @@ bunka.fit(docs=docs, ids = ids, pre_computed_embeddings = pre_computed_embedding
 
 from sklearn.cluster import KMeans
 clustering_model = KMeans(n_clusters=15)
->>> bunka.get_topics(name_length=5, 
+bunka.get_topics(name_length=5, 
                     custom_clustering_model=clustering_model)# Specify the number of terms to describe each topic
 ```
 
@@ -348,7 +360,7 @@ bunka.get_topics(n_clusters=15, name_length=3) # Specify the number of terms to 
 ```
 
 ```python
->>> bunka.start_server() # A serveur will open on your computer at http://localhost:3000/ 
+bunka.start_server() # A serveur will open on your computer at http://localhost:3000/ 
 ```
 
 <img src="docs/images/bunka_server.png" width="100%" height="100%" align="center" />
